@@ -1,0 +1,52 @@
+body {
+  background: #f4f6fa;
+  padding: 0;
+  margin: 0;
+}
+.right {
+  float: right;
+}
+section {
+  padding: 10px 20px;
+}
+#demo .toggle {
+  background: #fff;
+  margin-bottom: 20px;
+}
+#demo .choose-bar {
+  background: #fff;
+}
+#demo .timeSlotBtn {
+  background: #fbfbfb;
+  font-size: 15px;
+  padding: 0 20px;
+  color: #3296fa;
+}
+#demo .timeSlotBtn::after {
+  content: '';
+  display: block;
+  clear: both;
+}
+#demo .timeSlotBtn::before {
+  content: '';
+  display: block;
+  overflow: hidden;
+}
+#demo .timeSlotBtn .btn {
+  padding: 10px;
+}
+#demo .timeSlotBtn .cancel {
+  margin-right: 35px;
+  float: left;
+}
+#demo .timeSlotBtn .clear {
+  float: left;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}

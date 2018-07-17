@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="./index.css">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="demo">
+    <section class="toggle">
+      <button v-on:click="show = !show">
+        Toggle
+      </button>
+      <transition name="fade" class="right">
+        <p v-if="show">hello</p>
+      </transition>
+    </section>
+
+    <section @click="openTimeSlot" class="choose-bar">
+      <span class="title">请假时间段</span>
+      <div class="right">
+        <span>全天</span>
+        <!-- <img :src="scanIcon" alt=""> -->
+      </div>
+    </section>
+    
+    <mt-popup ref="timeSlot" v-model="timeSlot" position="bottom" :style="{width:'100%'}">
+      <div class="timeSlotBtn">
+        <span class="cancel btn" @click="closeTimeSlot">取消</span>
+        <span class="clear btn" @click="cancelTimeSlot">清空</span>
+        <span class="right btn" @click="handleChangeTimeSlot">确定</span>
+      </div>
+      <mt-picker :slots="slots" @change="onValuesChange"></mt-picker>
+    </mt-popup>
+  </div>
+
+  <!-- 引入样式 -->
+  <link rel="stylesheet" href="https://unpkg.com/mint-ui/lib/style.css">
+  <!-- 引入组件库 -->
+  <script src="https://unpkg.com/mint-ui/lib/index.js"></script>
+
+  <script src="./function.js"></script>
+
+  <script>
+    new Vue({
+      el: '#demo',
+      data: {
+        show: true,
+        timeSlot: false,
+        slots: [
+          {
+            flex: 1,
+            values: window.range(24),
+            className: 'slot1',
+            textAlign: 'right',
+            defaultIndex: 5,
+          }, {
+            divider: true,
+            content: ':',
+            className: 'slot2'
+          },
+          {
+            flex: 1,
+            values: window.range(60),
+            className: 'slot3',
+            textAlign: 'left',
+          }, {
+            divider: true,
+            content: '-',
+            className: 'slot4'
+          }, {
+            flex: 1,
+            values: window.range(24),
+            className: 'slot5',
+            textAlign: 'right',
+            defaultIndex: 5,
+          }, {
+            divider: true,
+            content: ':',
+            className: 'slot6'
+          },
+          {
+            flex: 1,
+            values: window.range(60),
+            className: 'slot7',
+            textAlign: 'left',
+          },
+        ],
+      },
+      methods: {
+        openTimeSlot() {
+          this.timeSlot = true;
+        },
+        closeTimeSlot() {
+          this.timeSlot = false;
+        },
+
+        cancelTimeSlot() {
+          // this.timeSlotValue = '全天';
+          this.closeTimeSlot();
+        },
+        handleChangeTimeSlot() {
+          this.closeTimeSlot();
+
+        },
+        onValuesChange(picker, values) {
+          console.log(123)
+        },
+      }
+    })
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,55 @@
+body {
+  background: #f4f6fa;
+  padding: 0;
+  margin: 0;
+}
+.right {
+  float: right
+}
+
+section {
+  padding: 10px 20px;
+}
+
+#demo {
+  .toggle {
+    background: #fff;
+    margin-bottom: 20px;
+  }
+  .choose-bar {
+    background: #fff;  
+  }
+  .timeSlotBtn {
+    background:#fbfbfb;
+    font-size: 15px;
+    padding: 0 20px;
+    color: #3296fa;
+    &::after {
+      content:'';
+      display: block;
+      clear: both
+    }
+    &::before {
+      content:'';
+      display:block;
+      overflow: hidden;
+    }
+    .btn {
+      padding: 10px;
+    }
+    .cancel {
+      margin-right: 35px;
+      float: left;
+    }
+    .clear {
+      float: left;
+    }
+  }
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+} 
