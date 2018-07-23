@@ -7,35 +7,39 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="./index.css">
   <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
-  <title>Document</title>
+   <!-- moment日期处理类库 -->
+   <script src="https://cdn.bootcss.com/moment.js/2.22.1/moment.min.js"></script>
+   <!-- javascript工具库 -->
+   <script src="https://cdn.bootcss.com/underscore.js/1.9.0/underscore-min.js"></script>
+  <title>mobile-timePicker</title>
 </head>
 
 <body>
-  <div id="demo">
+  <div id="demo" v-cloak>
     <section class="toggle">
       <button v-on:click="show = !show">
-        Toggle
+        点我试试
       </button>
       <transition name="fade" class="right">
-        <p v-if="show">hello</p>
+        <p v-if="show">hello,点击下面选择时间</p>
       </transition>
     </section>
 
     <section @click="openTimeSlot" class="choose-bar">
-      <span class="title">请假时间段</span>
+      <span class="title">请选择时间段</span>
       <div class="right">
-        <span>全天</span>
-        <!-- <img :src="scanIcon" alt=""> -->
+        <span>{{timeSlotValue}}&nbsp;&nbsp;</span>
+        <img src="./images/arrow_down.png" alt="">
       </div>
     </section>
-    
+
     <mt-popup ref="timeSlot" v-model="timeSlot" position="bottom" :style="{width:'100%'}">
       <div class="timeSlotBtn">
         <span class="cancel btn" @click="closeTimeSlot">取消</span>
         <span class="clear btn" @click="cancelTimeSlot">清空</span>
         <span class="right btn" @click="handleChangeTimeSlot">确定</span>
       </div>
-      <mt-picker :slots="slots" @change="onValuesChange"></mt-picker>
+      <mt-picker :slots="slots" @change="onValuesChange" id="picker-box"></mt-picker>
     </mt-popup>
   </div>
 
@@ -43,22 +47,36 @@
   <link rel="stylesheet" href="https://unpkg.com/mint-ui/lib/style.css">
   <!-- 引入组件库 -->
   <script src="https://unpkg.com/mint-ui/lib/index.js"></script>
-
+ 
+  <!-- 封装的方法 -->
   <script src="./function.js"></script>
 
   <script>
     new Vue({
       el: '#demo',
       data: {
-        show: true,
+        show: false,
         timeSlot: false,
+        timeSlotValue: '全天',
+        startSlotTime: formatDate(
+          moment()
+            .minute(0).startOf('day')
+            .valueOf(),
+          "H:i"
+        ),
+        endSlotTime: formatDate(
+          moment()
+            .minute(0).endOf('day')
+            .valueOf(),
+          "H:i"),
+        timeArr: [],
         slots: [
           {
             flex: 1,
             values: window.range(24),
             className: 'slot1',
             textAlign: 'right',
-            defaultIndex: 5,
+            defaultIndex: 0
           }, {
             divider: true,
             content: ':',
@@ -69,6 +87,7 @@
             values: window.range(60),
             className: 'slot3',
             textAlign: 'left',
+            defaultIndex: 0
           }, {
             divider: true,
             content: '-',
@@ -78,7 +97,7 @@
             values: window.range(24),
             className: 'slot5',
             textAlign: 'right',
-            defaultIndex: 5,
+            defaultIndex: 23,
           }, {
             divider: true,
             content: ':',
@@ -89,8 +108,13 @@
             values: window.range(60),
             className: 'slot7',
             textAlign: 'left',
+            defaultIndex: 59,
           },
         ],
+      },
+      mounted() {
+        console.log('startSlotTime', this.startSlotTime)
+        console.log('endSlotTime', this.endSlotTime)
       },
       methods: {
         openTimeSlot() {
@@ -101,15 +125,32 @@
         },
 
         cancelTimeSlot() {
-          // this.timeSlotValue = '全天';
+          this.timeSlotValue = '全天';
+          // this.slots[0].defaultIndex = 0
+          var pickerBox = document.getElementById('picker-box')
           this.closeTimeSlot();
         },
         handleChangeTimeSlot() {
+          if (this.timeArr[0] == this.timeArr[2]) {
+            if (this.timeArr[1] > this.timeArr[3]) {
+              this.$toast("开始时间不能晚于结束时间");
+              return;
+            }
+          }
+          if (this.timeArr[0] > this.timeArr[2]) {
+            this.$toast("开始时间不能晚于结束时间");
+            return;
+          }
+          this.timeSlotValue = this.startSlotTime + "-" + this.endSlotTime;
           this.closeTimeSlot();
 
         },
         onValuesChange(picker, values) {
-          console.log(123)
+          this.timeArr = _.map(values, function (item, index) {
+            return Number(item);
+          });
+          this.startSlotTime = values[0] + ":" + values[1];
+          this.endSlotTime = values[2] + ":" + values[3];
         },
       }
     })

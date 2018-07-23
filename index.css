@@ -6,6 +6,11 @@ body {
 .right {
   float: right;
 }
+.right > img {
+  height: 20px;
+  display: inline-block;
+  vertical-align: top;
+}
 section {
   padding: 10px 20px;
 }
@@ -15,6 +20,9 @@ section {
 }
 #demo .choose-bar {
   background: #fff;
+}
+#demo .choose-bar:active {
+  background: #fbfbfb;
 }
 #demo .timeSlotBtn {
   background: #fbfbfb;
@@ -49,4 +57,10 @@ section {
 .fade-enter,
 .fade-leave-to {
   opacity: 0;
+}
+.mint-toast.is-placemiddle {
+  z-index: 2100;
+}
+[v-cloak] {
+  display: none;
 }

@@ -4,7 +4,12 @@ body {
   margin: 0;
 }
 .right {
-  float: right
+  float: right;
+  > img {
+    height: 20px;
+    display: inline-block;
+    vertical-align: top;
+  }
 }
 
 section {
@@ -18,6 +23,10 @@ section {
   }
   .choose-bar {
     background: #fff;  
+    &:active {
+      background: #fbfbfb;
+      // color: #fff;
+    }
   }
   .timeSlotBtn {
     background:#fbfbfb;
@@ -53,3 +62,11 @@ section {
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
 } 
+
+.mint-toast.is-placemiddle {
+  z-index: 2100
+}
+
+[v-cloak] {
+  display: none;
+}
